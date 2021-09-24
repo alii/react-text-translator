@@ -9,12 +9,12 @@ import {createTranslations} from 'react-text-translator';
 
 export const translator = createTranslations({
 	'Hello World': {
-		SPANISH: 'Hola Globa',
+		SPANISH: 'Hola mundo',
 		BRITISH: 'Hello World',
 	},
 	'Contact Us': {
 		BRITISH: 'Contact Us',
-		SPANISH: 'Contacterino',
+		SPANISH: 'Contáctanos',
 	},
 });
 
