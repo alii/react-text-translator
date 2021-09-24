@@ -10,7 +10,8 @@
 		"declarationMap": true,
 		"moduleResolution": "node",
 		"strict": true,
-		"jsx": "react"
+		"jsx": "react",
+		"lib": ["ES2017"]
 	},
 	"exclude": ["node_modules", "dist"]
 }

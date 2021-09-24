@@ -1,6 +1,6 @@
 {
 	"name": "react-text-translate",
-	"description": "An experimental way to translate text inside React components",
+	"description": "An experimental way to translate text inside React components with context",
 	"version": "1.0.0",
 	"types": "./dist/index.d.ts",
 	"type": "module",
@@ -31,7 +31,7 @@
 		"typescript": "^4.4.3"
 	},
 	"scripts": {
-		"build": "tsup src/index.ts --dts --format esm,cjs",
+		"build": "tsup src/index.tsx --dts --minify --format esm,cjs",
 		"lint": "eslint ./src/**/*.ts",
 		"fix": "eslint ./src/**/*.ts --fix"
 	},
@@ -53,6 +53,5 @@
 	"peerDependencies": {
 		"@types/react": "^17.0.24",
 		"react": "^17.0.2"
-	},
-	"dependencies": {}
+	}
 }

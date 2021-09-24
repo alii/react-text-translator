@@ -2,6 +2,7 @@ import React, {createContext, ReactNode, useContext, useMemo} from 'react';
 
 export interface TranslationContext<Languages extends string, Keys extends string> {
 	translations: Record<Keys, Record<Languages, string>>;
+	activeLang: Languages;
 }
 
 const getContext = <Languages extends string, Keys extends string>(
@@ -9,9 +10,10 @@ const getContext = <Languages extends string, Keys extends string>(
 ) => createContext<TranslationContext<Languages, Keys>>(data);
 
 export function createTranslations<Languages extends string, Keys extends string>(
+	initialLang: Languages,
 	data: Record<Keys, Record<Languages, string>>
 ) {
-	const context = getContext({translations: data});
+	const context = getContext({translations: data, activeLang: initialLang});
 
 	function useTextTranslateContext() {
 		const contextData = useContext(context);
@@ -24,13 +26,13 @@ export function createTranslations<Languages extends string, Keys extends string
 	}
 
 	function TranslationProvider(props: {children: ReactNode}) {
-		const memo = useMemo(() => ({translations: data}), [data]);
+		const memo = useMemo(() => ({translations: data, activeLang: initialLang}), []);
 		return <context.Provider value={memo}>{props.children}</context.Provider>;
 	}
 
 	function Text(props: {children: keyof typeof data}) {
-		const {translations} = useTextTranslateContext();
-		return <>{translations[props.children]}</>;
+		const {translations, activeLang} = useTextTranslateContext();
+		return <>{translations[props.children][activeLang]}</>;
 	}
 
 	return {useTextTranslateContext, TranslationProvider, Text};
