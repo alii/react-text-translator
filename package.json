@@ -1,7 +1,7 @@
 {
 	"name": "react-text-translator",
 	"description": "An experimental way to translate text inside React components with context",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"exports": {
