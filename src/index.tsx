@@ -34,10 +34,12 @@ export function createTranslations<Languages extends string, Keys extends string
 	const phrases = Object.keys(data) as Keys[];
 	const languages = [
 		...new Set(
-			phrases.map(phrase => {
-				const translations = data[phrase];
-				return Object.keys(translations) as Array<keyof typeof translations>;
-			})
+			phrases
+				.map(phrase => {
+					const translations = data[phrase];
+					return Object.keys(translations) as Array<keyof typeof translations>;
+				})
+				.reduce((a, b) => [...a, ...b], [])
 		),
 	];
 
