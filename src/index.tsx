@@ -31,6 +31,15 @@ export function createTranslations<Languages extends string, Keys extends string
 	data: Record<Keys, Record<Languages, string>>
 ) {
 	const context = getContext<Languages, Keys>();
+	const phrases = Object.keys(data) as Keys[];
+	const languages = [
+		...new Set(
+			phrases.map(phrase => {
+				const translations = data[phrase];
+				return Object.keys(translations) as Array<keyof typeof translations>;
+			})
+		),
+	];
 
 	function useTextTranslateContext() {
 		const contextData = useContext(context);
@@ -40,6 +49,22 @@ export function createTranslations<Languages extends string, Keys extends string
 		}
 
 		return contextData;
+	}
+
+	/**
+	 * Gets a list of phrases
+	 * @returns An array of available phrases
+	 */
+	function getPhrases() {
+		return phrases;
+	}
+
+	/**
+	 * Gets a list of languages
+	 * @returns An array of given languages
+	 */
+	function getLanguages() {
+		return languages;
 	}
 
 	/**
@@ -95,5 +120,12 @@ export function createTranslations<Languages extends string, Keys extends string
 		return <>{language[props.lang ?? activeLang]}</>;
 	}
 
-	return {useTextTranslateContext, TranslationProvider, Text, isValidPhrase};
+	return {
+		getPhrases,
+		getLanguages,
+		useTextTranslateContext,
+		TranslationProvider,
+		Text,
+		isValidPhrase,
+	};
 }
