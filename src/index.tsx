@@ -25,15 +25,29 @@ export function createTranslations<Languages extends string, Keys extends string
 		return contextData;
 	}
 
+	function isValidPhrase(text: string): text is keyof typeof data {
+		return text in data;
+	}
+
 	function TranslationProvider(props: {children: ReactNode}) {
 		const memo = useMemo(() => ({translations: data, activeLang: initialLang}), []);
 		return <context.Provider value={memo}>{props.children}</context.Provider>;
 	}
 
-	function Text(props: {children: keyof typeof data}) {
+	function Text({children: phrase}: {children: string}) {
 		const {translations, activeLang} = useTextTranslateContext();
-		return <>{translations[props.children][activeLang]}</>;
+
+		const isValid = isValidPhrase(phrase);
+
+		if (!isValid) {
+			throw new Error(
+				'Invalid phrase passed to <Text />. Must be a valid key given to the translator!'
+			);
+		}
+
+		const language = translations[phrase];
+		return <>{language[activeLang]}</>;
 	}
 
-	return {useTextTranslateContext, TranslationProvider, Text};
+	return {useTextTranslateContext, TranslationProvider, Text, isValidPhrase};
 }
