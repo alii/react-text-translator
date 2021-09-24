@@ -1,5 +1,5 @@
 {
-	"name": "react-text-translate",
+	"name": "react-text-translator",
 	"description": "An experimental way to translate text inside React components with context",
 	"version": "1.0.0",
 	"types": "./dist/index.d.ts",
@@ -10,7 +10,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/alii/react-text-translate.git"
+		"url": "git+https://github.com/alii/react-text-translator.git"
 	},
 	"author": "Alistair Smith <alistairsmith01@gmail.com> (https://alistair.sh)",
 	"license": "MIT",
@@ -36,9 +36,9 @@
 		"fix": "eslint ./src/**/*.ts --fix"
 	},
 	"bugs": {
-		"url": "https://github.com/alii/react-text-translate/issues"
+		"url": "https://github.com/alii/react-text-translator/issues"
 	},
-	"homepage": "https://github.com/alii/react-text-translate#readme",
+	"homepage": "https://github.com/alii/react-text-translator#readme",
 	"files": [
 		"dist",
 		"package.json"

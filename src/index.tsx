@@ -5,15 +5,13 @@ export interface TranslationContext<Languages extends string, Keys extends strin
 	activeLang: Languages;
 }
 
-const getContext = <Languages extends string, Keys extends string>(
-	data: TranslationContext<Languages, Keys>
-) => createContext<TranslationContext<Languages, Keys>>(data);
+const getContext = <Languages extends string, Keys extends string>() =>
+	createContext<TranslationContext<Languages, Keys> | null>(null);
 
 export function createTranslations<Languages extends string, Keys extends string>(
-	initialLang: Languages,
 	data: Record<Keys, Record<Languages, string>>
 ) {
-	const context = getContext({translations: data, activeLang: initialLang});
+	const context = getContext<Languages, Keys>();
 
 	function useTextTranslateContext() {
 		const contextData = useContext(context);
@@ -29,8 +27,12 @@ export function createTranslations<Languages extends string, Keys extends string
 		return text in data;
 	}
 
-	function TranslationProvider(props: {children: ReactNode}) {
-		const memo = useMemo(() => ({translations: data, activeLang: initialLang}), []);
+	function TranslationProvider(props: {children: ReactNode; activeLang: Languages}) {
+		const memo = useMemo(
+			() => ({translations: data, activeLang: props.activeLang}),
+			[props.activeLang]
+		);
+
 		return <context.Provider value={memo}>{props.children}</context.Provider>;
 	}
 
@@ -46,6 +48,7 @@ export function createTranslations<Languages extends string, Keys extends string
 		}
 
 		const language = translations[phrase];
+
 		return <>{language[activeLang]}</>;
 	}
 
