@@ -7,7 +7,7 @@ export interface TranslationContext<Languages extends string, Keys extends strin
 	/**
 	 * An object of phrases and their respective language translations
 	 */
-	translations: Record<Keys, Record<Languages, string>>;
+	translations: Record<Keys, Record<Languages, ReactNode>>;
 
 	/**
 	 * The active language to be displayed in the app
@@ -28,7 +28,7 @@ const getContext = <Languages extends string, Keys extends string>() =>
  * @returns Helper functions and components to use in your app
  */
 export function createTranslations<Languages extends string, Keys extends string>(
-	data: Record<Keys, Record<Languages, string>>
+	data: Record<Keys, Record<Languages, ReactNode>>
 ) {
 	const context = getContext<Languages, Keys>();
 	const phrases = Object.keys(data) as Keys[];
@@ -41,7 +41,7 @@ export function createTranslations<Languages extends string, Keys extends string
 				})
 				.reduce((a, b) => [...a, ...b], [])
 		),
-	];
+	] as const;
 
 	function useTextTranslateContext() {
 		const contextData = useContext(context);
@@ -51,6 +51,14 @@ export function createTranslations<Languages extends string, Keys extends string
 		}
 
 		return contextData;
+	}
+
+	/**
+	 * Function that gets the active langauge from context
+	 * @returns The active language
+	 */
+	function useActiveLanguage() {
+		return useTextTranslateContext().activeLang;
 	}
 
 	/**
@@ -126,8 +134,9 @@ export function createTranslations<Languages extends string, Keys extends string
 		getPhrases,
 		getLanguages,
 		useTextTranslateContext,
+		useActiveLanguage,
 		TranslationProvider,
 		Text,
 		isValidPhrase,
-	};
+	} as const;
 }
